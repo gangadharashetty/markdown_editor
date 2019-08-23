@@ -36,10 +36,10 @@
 
 </head>
 
-<body id="page-top" class="bg-dark">
+<body id="page-top" >
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 bg-dark" id="mainNav">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">ICAP <span style="font-size: 10px">powered by <b style="color: darkorange">nixbees</b></span></a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,9 +50,13 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#materials">Materials</a>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-          </li> -->
+          </li>
+         <li class="nav-item" style="background-color:#bdbdbd; border-radius:20px;">
+            <a class="nav-link js-scroll-trigger" id="login" href="login.html" style="padding-right:15px">Login</a>
+            <a class="nav-link js-scroll-trigger" id="logout" style="display:none; cursor:pointer; padding-right:15px;" onclick="logout()">Logout</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -62,7 +66,7 @@
   
 
   <!-- Call to Action Section -->
-  <section class="page-section bg-dark text-white" id="materials" >
+  <section class="page-section bg-dark text-white" id="materials" style="height:100%">
       <div class="row">
             <div class="col-lg-2 container">
                 <form action="/action_page.php">
@@ -78,7 +82,7 @@
                         <label for="desc">Description:</label>
                         <input type="text" class="form-control text-center" id="desc">
                     </div>
-                    <button type="button" onclick="save()" class="btn btn-default btn-">Save / Update</button>
+                    <button type="button" onclick="save()" class="btn btn-default ">Save / Update</button>
                 </form>
             </div>
             <div class="container text-center col-lg-9">
@@ -93,8 +97,8 @@
                           var editor;
                           $(function() {
                               editor = editormd("test-editor", {
-                                  width  : "90%",
-                                  height : "620",
+                                  width  : "95%",
+                                  height : "600",
                                   path   : "editormd/lib/"
                               });
                           });
@@ -110,7 +114,29 @@
                         };
                         firebase.initializeApp(config);
                         database = firebase.database();
-                        auth = firebase.auth();
+                        var flag = 1;
+                        firebase.auth().onAuthStateChanged(function(user) {
+                            if (user) {
+                                document.getElementById("login").style.display = "none";
+                                document.getElementById("logout").style.display = "block";
+                            } else {
+                              
+                                document.getElementById("login").style.display = "block";
+                                document.getElementById("logout").style.display = "none";
+                                if(falg===1)
+                                  location.replace("login.html");
+                            }
+                        });
+                        function logout()
+                        {
+                          flag = 0;
+                          firebase.auth().signOut().then(function() {
+                            window.open("index.html","_self");
+                            alert("Logged out successfully!");
+                          }, function(error) {
+                            alert("Unable to logout, try aggain later...");
+                          });
+                        }
                         function save()
                         {
                             var session = document.getElementById("session");
@@ -141,8 +167,8 @@
 
   </section>
 
-  <!-- Contact Section -->
-  <!-- <section class="page-section" id="contact">
+  <!-- Contact Section --> 
+ <section class="page-section" id="contact">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8 text-center">
@@ -158,19 +184,18 @@
         </div>
         <div class="col-lg-4 mr-auto text-center">
           <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
-          Make sure to change the email address in anchor text AND the link below!
           <a class="d-block" href="mailto:contact@yourwebsite.com">hello@nixbees.com</a>
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
 
   <!-- Footer -->
-  <!-- <footer class="bg-light py-5">
+  <footer class="bg-light py-5">
     <div class="container">
       <div class="small text-center text-muted">Copyright &copy; 2019 - Nixbees</div>
     </div>
-  </footer> -->
+  </footer>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>

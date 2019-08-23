@@ -49,7 +49,7 @@
 <body id="page-top">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 bg-dark" id="mainNav">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 " id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">ICAP <span style="font-size: 10px">powered by <b style="color: darkorange">nixbees</b></span></a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,43 +60,50 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#materials">Materials</a>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-          </li> -->
+          </li>
+          <li class="nav-item" style="background-color:#bdbdbd; border-radius:20px;">
+            <a class="nav-link js-scroll-trigger" id="login" href="login.html" style="padding-right:15px">Login</a>
+            <a class="nav-link js-scroll-trigger" id="logout" style="display:none; cursor:pointer; padding-right:15px;" onclick="logout()">Logout</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
 
-  
+  <section  class="page-section text-white bg-dark">
+    <div class="container">
+     <div class="row">
+      
+        <div class="col-lg-4 col-md-6 text-center">
+           <label for="college">College Name</label>
+          <input type="text" disabled class="form-control text-center" value="SSIT" id="college">
+        </div>
+        <div class="col-lg-4 col-md-6 text-center">
+          <label for="session">Session Name</label>
+          <input type="text" disabled class="form-control text-center" id="session">
+        </div>
+        <div class="col-lg-4 col-md-6 text-center">
+         <label for="desc">Description:</label>
+          <input type="text" disabled class="form-control text-center" id="desc">
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Call to Action Section -->
-  <section class="page-section bg-dark text-white" id="materials" style="height: 100%">
-      <div class="row">
-            <div class="col-lg-2 container">
-                <form action="/action_page.php">
-                    <div class="form-group">
-                        <label for="college">College Name</label>
-                        <input type="text" disabled class="form-control text-center" value="SSIT" id="college">
-                    </div>
-                    <div class="form-group">
-                        <label for="session">Session Name</label>
-                        <input type="text" disabled class="form-control text-center" id="session">
-                    </div>
-                    <div class="form-group">
-                        <label for="desc">Description:</label>
-                        <input type="text" disabled class="form-control text-center" id="desc">
-                    </div>
-                </form>
-            </div>
-            
-            <div class="container text-center col-lg-9">
+  <section class="page-section text-white" id="materials">
+    
+      <div class="row ">
+           
+            <div class="container text-center col-lg-10" >
               <link rel="stylesheet" href="editormd/css/editormd.css" />
               <link rel="stylesheet" href="editormd/css/editormd.preview.css" />
-                <div id="test-markdown-view">
+                <div id="test-markdown-view" style="height:100%;">
                     <!-- Server-side output Markdown text -->
-                    <textarea id="readme" style="display:none;">### Hello world!</textarea>             
+                    <textarea id="readme" style="display:none;"></textarea>             
                 </div>
                 <script src="js/jquery.min.js"></script>
                 <script src="editormd/editormd.js"></script>
@@ -125,8 +132,29 @@
                 };
                 firebase.initializeApp(config);
                 database = firebase.database();
-                auth = firebase.auth();
-
+                var flag = 1;
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        document.getElementById("login").style.display = "none";
+                        document.getElementById("logout").style.display = "block";
+                    } else {
+                      
+                        document.getElementById("login").style.display = "block";
+                        document.getElementById("logout").style.display = "none";
+                        if(falg===1)
+                          location.replace("login.html");
+                    }
+                });
+                function logout()
+                {
+                  flag = 0;
+                  firebase.auth().signOut().then(function() {
+                    window.open("index.html","_self");
+                    alert("Logged out successfully!");
+                  }, function(error) {
+                    alert("Unable to logout, try aggain later...");
+                  });
+                }
                 database.ref('icap/sessions/' + localStorage.getItem("sessionPath")).on('value', function(snapshot) {
                   var ref = snapshot.val();
                     console.log(snapshot.val());
@@ -158,7 +186,7 @@
   </section>
 
   <!-- Contact Section -->
-  <!-- <section class="page-section" id="contact">
+  <section class="page-section bg-dark" id="contact">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8 text-center">
@@ -179,14 +207,14 @@
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
 
   <!-- Footer -->
-  <!-- <footer class="bg-light py-5">
+  <footer class="bg-dark py-5">
     <div class="container">
       <div class="small text-center text-muted">Copyright &copy; 2019 - Nixbees</div>
     </div>
-  </footer> -->
+  </footer>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
