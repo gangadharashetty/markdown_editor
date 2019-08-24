@@ -28,8 +28,10 @@
             auth = firebase.auth();
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
-        
-                    location.replace("index.html");
+                    if(localStorage.getItem("previousUrl") !== "null")
+                        location.replace(localStorage.getItem("previousUrl"));
+                    else
+                        localStorage.getItem("index.html");
         
                 } else {
                     // User is signed out.

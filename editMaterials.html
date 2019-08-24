@@ -55,7 +55,7 @@
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
           </li>
          <li class="nav-item" style="background-color:#bdbdbd; border-radius:20px;">
-            <a class="nav-link js-scroll-trigger" id="login" href="login.html" style="padding-right:15px">Login</a>
+            <a class="nav-link js-scroll-trigger" id="login" onclick="goToLogin()" style="padding-right:15px; cursor: pointer;">Login</a>
             <a class="nav-link js-scroll-trigger" id="logout" style="display:none; cursor:pointer; padding-right:15px;" onclick="logout()">Logout</a>
           </li>
         </ul>
@@ -120,9 +120,14 @@
                                 document.getElementById("login").style.display = "block";
                                 document.getElementById("logout").style.display = "none";
                                 if(falg===1)
-                                  location.replace("login.html");
+                                  goToLogin();
                             }
                         });
+                        function goToLogin()
+                        {
+                          localStorage.setItem("previousUrl", "editMaterials.html");
+                          location.replace("login.html");
+                        }
                         function logout()
                         {
                           flag = 0;
