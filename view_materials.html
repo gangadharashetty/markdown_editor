@@ -163,23 +163,19 @@
                 }
 
                 function loadData(uid){
-                  database.ref("admin/"+uid).once("value").then(function(snapshot1) {
-                    if(snapshot1.exists() === false)
-                      window.open("index.html", "_self");
-                    database.ref('icap/sessions/' + localStorage.getItem("sessionPath")).on('value', function(snapshot) {
-                    var ref = snapshot.val();
-                      console.log(snapshot.val());
-                      // simplemde.value(ref['readme']);
-                      $('#desc').val(ref['desc']);
-                      $('#session').val(ref['session_name']);
-                      $('#college').val(ref['college']);
-                      $("#readme").val(ref["readme"]);
-                      var testView = editormd.markdownToHTML("test-markdown-view", {
-                              // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
-                              // htmlDecode : true,  // Enable / disable HTML tag encode.
-                              // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
-                          });
-                    });
+                  database.ref('icap/sessions/' + localStorage.getItem("sessionPath")).on('value', function(snapshot) {
+                  var ref = snapshot.val();
+                    console.log(snapshot.val());
+                    // simplemde.value(ref['readme']);
+                    $('#desc').val(ref['desc']);
+                    $('#session').val(ref['session_name']);
+                    $('#college').val(ref['college']);
+                    $("#readme").val(ref["readme"]);
+                    var testView = editormd.markdownToHTML("test-markdown-view", {
+                            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                            // htmlDecode : true,  // Enable / disable HTML tag encode.
+                            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+                        });
                   });
                 }
                
